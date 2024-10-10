@@ -27,10 +27,24 @@ const url = require("url");
 /////////////////////////////////////////
 //SERVER
 const server = http.createServer((req, res) => {
-  console.log(req.url);
   const pathname = req.url;
 
-  if (pathname) res.end("Hello from the server!");
+  if (pathname === "/overview" || pathname === "/") {
+    res.writeHead(200, {
+      "my-header :)": "hi there!",
+    });
+    res.end("This is overview");
+  } else if (pathname === "/product") {
+    res.end("This is product");
+  } else {
+    //We can only send headers before the response
+    res.writeHead(404, {
+      "Content-type": "text/html",
+      "my-own-header": "hello-world",
+    });
+    //Response follows the header ^
+    res.end("<h1>This page cannot be found!</h1>");
+  }
 });
 
 server.listen(8000, "127.0.0.1", () => {
