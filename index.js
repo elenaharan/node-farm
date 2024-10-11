@@ -36,6 +36,14 @@ const server = http.createServer((req, res) => {
     res.end("This is overview");
   } else if (pathname === "/product") {
     res.end("This is product");
+  } else if (pathname === "/api") {
+    fs.readFile(`${__dirname}/dev-data/data.json`, 'utf-8', (err, data) => {
+      const productData = JSON.parse(data);
+      res.writeHead(200, {
+        'Content-type': 'application/json'
+      });
+      res.end(data)
+    })
   } else {
     //We can only send headers before the response
     res.writeHead(404, {
