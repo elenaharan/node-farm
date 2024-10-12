@@ -26,6 +26,11 @@ const url = require("url");
 
 /////////////////////////////////////////
 //SERVER
+
+
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, "utf-8");
+const dataObject = JSON.parse(data);
+
 const server = http.createServer((req, res) => {
   const pathname = req.url;
 
@@ -37,13 +42,11 @@ const server = http.createServer((req, res) => {
   } else if (pathname === "/product") {
     res.end("This is product");
   } else if (pathname === "/api") {
-    fs.readFile(`${__dirname}/dev-data/data.json`, 'utf-8', (err, data) => {
-      const productData = JSON.parse(data);
-      res.writeHead(200, {
-        'Content-type': 'application/json'
-      });
-      res.end(data)
-    })
+    const productData = JSON.parse(data);
+    res.writeHead(200, {
+      "Content-type": "application/json",
+    });
+    res.end(data);
   } else {
     //We can only send headers before the response
     res.writeHead(404, {
