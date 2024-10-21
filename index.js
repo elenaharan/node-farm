@@ -26,27 +26,41 @@ const url = require("url");
 
 /////////////////////////////////////////
 //SERVER
-
-
+const tempOverview = fs.readFileSync(
+  `${__dirname}/templates/template-overview.html`,
+  "utf-8"
+);
+const tempCard = fs.readFileSync(
+  `${__dirname}/templates/template-card.html`,
+  "utf-8"
+);
+const tempProduct = fs.readFileSync(
+  `${__dirname}/templates/template-product.html`,
+  "utf-8"
+);
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, "utf-8");
 const dataObject = JSON.parse(data);
 
 const server = http.createServer((req, res) => {
   const pathname = req.url;
 
+  //OVERVIEW PAGE
   if (pathname === "/overview" || pathname === "/") {
-    res.writeHead(200, {
-      "my-header :)": "hi there!",
-    });
     res.end("This is overview");
+
+    //PRODUCT PAGE
   } else if (pathname === "/product") {
     res.end("This is product");
+
+    //API
   } else if (pathname === "/api") {
     const productData = JSON.parse(data);
     res.writeHead(200, {
       "Content-type": "application/json",
     });
     res.end(data);
+
+    //NOT FOUND
   } else {
     //We can only send headers before the response
     res.writeHead(404, {
