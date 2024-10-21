@@ -46,7 +46,10 @@ const server = http.createServer((req, res) => {
 
   //OVERVIEW PAGE
   if (pathname === "/overview" || pathname === "/") {
-    res.end("This is overview");
+    res.writeHead(200, {
+      "Content-type": "text/html",
+    });
+    res.end(tempOverview);
 
     //PRODUCT PAGE
   } else if (pathname === "/product") {
