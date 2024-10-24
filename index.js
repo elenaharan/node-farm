@@ -73,8 +73,12 @@ const server = http.createServer((req, res) => {
 
     //PRODUCT PAGE
   } else if (pathname === "/product") {
+    res.writeHead(200, {
+      "Content-type": "text/html",
+    });
     const product = dataObject[query.id];
-    res.end("This is product");
+    const output = replaceTemplate(tempProduct, product);
+    res.end(output);
 
     //API
   } else if (pathname === "/api") {
@@ -89,7 +93,6 @@ const server = http.createServer((req, res) => {
     //We can only send headers before the response
     res.writeHead(404, {
       "Content-type": "text/html",
-      "my-own-header": "hello-world",
     });
     //Response follows the header ^
     res.end("<h1>This page cannot be found!</h1>");
